@@ -1,0 +1,26 @@
+<launch>
+        <arg name="image_topic1" default="/camera/color/image_raw" />
+        <arg name="image_topic2" default="/usb_cam/image_raw" />
+
+        <node pkg="ORB_SLAM" type="ORB_SLAM" name="ORB_SLAM1" args="Data/ORBvoc.txt Data/d435i_640_480_30.yaml" cwd="node" output="screen">
+            <remap from="/camera/image_raw"     to="$(arg image_topic1)" /> 
+            <remap from="/camera_pose"          to="/camera1_pose" />
+            <remap from="/ORB_SLAM/Map"          to="/camera1/Map" />
+            <remap from="/ORB_SLAM/Frame"          to="/camera1/Frame" />
+            <remap from="/ORB_SLAM/Log/Tracking/Status"          to="/camera1/Log/Tracking/Status" />
+            <remap from="/ORB_SLAM/Log/Map/KeyFrameNum"          to="/camera1/Log/Map/KeyFrameNum" />
+            <remap from="/ORB_SLAM/Log/Frame/KeyFeaturesUndistortNum"          to="/camera1/Log/Frame/KeyFeaturesUndistortNum" />
+            <remap from="/ORB_SLAM/Log/Frame/KeyFeaturesMatches"          to="/camera1/Log/Frame/KeyFeaturesMatches" />
+        </node>
+
+        <node pkg="ORB_SLAM" type="ORB_SLAM" name="ORB_SLAM2" args="Data/ORBvoc.txt Data/h264_640_480_30.yaml" cwd="node" output="screen">
+            <remap from="/camera/image_raw"     to="$(arg image_topic2)" /> 
+            <remap from="/camera_pose"          to="/camera2_pose" />
+            <remap from="/ORB_SLAM/Map"          to="/camera2/Map" />
+            <remap from="/ORB_SLAM/Frame"          to="/camera2/Frame" />
+            <remap from="/ORB_SLAM/Log/Tracking/Status"          to="/camera2/Log/Tracking/Status" />
+            <remap from="/ORB_SLAM/Log/Map/KeyFrameNum"          to="/camera2/Log/Map/KeyFrameNum" />
+            <remap from="/ORB_SLAM/Log/Frame/KeyFeaturesUndistortNum"          to="/camera2/Log/Frame/KeyFeaturesUndistortNum" />
+            <remap from="/ORB_SLAM/Log/Frame/KeyFeaturesMatches"          to="/camera2/Log/Frame/KeyFeaturesMatches" />
+        </node>
+</launch>
