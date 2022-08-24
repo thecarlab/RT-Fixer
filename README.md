@@ -13,3 +13,15 @@ the melodic version has been tested.
 cd orb_slam_2_ros/docker/melodic
 sudo docker build -t 'desired image name' .
 ```
+
+# Run ORB SLAM2 ROS
+
+first start docker container
+```
+sh run.sh
+```
+
+After enter the container, d435 can be replaced with l515, mono can be replaced with rgbd
+```
+roslaunch orb_slam_2_ros orb_slam2_d435_mono.launch
+```
