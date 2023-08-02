@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_sensor" args="1.2 0 2.0 0 0 0 base_link $(arg lidar_sensor_frame)" />
+</launch>

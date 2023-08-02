@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="oem_localizer" type="ndt_localizer" name="ndt_localizer" output="screen">
+
+        <param name="file_path" value="/mnt/zr/openEdgeMap-Dev/ros/src/oem_client/configs/nagoya.path" />
+    </node>
+</launch>

@@ -1,0 +1,12 @@
+<launch>
+
+  <!-- Topics -->
+
+  <include file="$(find oem_client)/launch/static_tf.launch" />
+  <include file="$(find map_manager)/launch/map_loader.launch" />
+  <include file="$(find oem_localizer)/launch/points_downsample.launch" />
+  <include file="$(find oem_localizer)/launch/ndt_localizer.launch" />
+
+  <node pkg="rviz" type="rviz" name="rviz2" args="-d $(find oem_client)/configs/visualization.rviz" />
+
+</launch>

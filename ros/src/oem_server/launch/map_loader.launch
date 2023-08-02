@@ -1,0 +1,40 @@
+<launch>
+    <!--- Sim Time -->
+    <!-- <param name="/use_sim_time" default="true" />  -->
+<param name="/use_sim_time" value="true" />
+<arg name="namespace" default="v2"/>
+<group ns="$(arg namespace)">
+    <arg name="input_initial_pose_topic" default="map_loader/initialpose" doc="Initial position topic to align" />
+    <!-- <arg name="odom_topic" default="/odometry/filtered/global" doc="robot odom topic" /> -->
+    <arg name="odom_topic" default="ndt_pose" doc="robot odom topic" />
+    <arg name="submap_size_xy" default="100.0" />
+    <arg name="submap_size_z" default="25.0" />
+    <arg name="map_switch_thres" default="60.0" />
+
+    <arg name="local_map_frame" default="v1/local_map" />
+
+
+    <!--- Run Rviz-->
+    <node pkg="rviz" type="rviz" name="rviz2" args="-d $(find oem_server)/configs/clients.rviz" />
+
+    <!--- MapLoader -->    
+    <arg name="pcd_path"  default="$(find oem_server)/maps/map-1_1.0.pcd"/>
+    
+    <arg name="map_topic" default="/global_map"/>
+    <arg name="submap_topic" default="submap"/>
+
+
+    <node pkg="oem_server" type="map_loader"    name="map_loader"    output="screen">
+        <param name="pcd_path" value="$(arg pcd_path)"/>
+        <param name="map_topic" value="$(arg map_topic)"/>
+        <param name="submap_topic" value="$(arg submap_topic)"/>
+        <param name="local_map_frame" value="$(arg local_map_frame)"/>
+        <param name="robot_pose_topic" value="/update_robot_pose"/>
+        <param name="init_pose_topic" value="$(arg input_initial_pose_topic)"/>
+
+        <param name="submap_size_xy" value="$(arg submap_size_xy)"/>
+        <param name="submap_size_z" value="$(arg submap_size_z)"/>
+        <param name="map_switch_thres" value="$(arg map_switch_thres)"/>
+    </node>
+</group>
+</launch>

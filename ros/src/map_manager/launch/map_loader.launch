@@ -1,0 +1,12 @@
+<launch>
+    
+    <!--- MapLoader -->    
+    <arg name="pcd_path"  default="$(find map_manager)/map/voxel-map-1.pcd"/>
+    <arg name="map_topic" default="/points_map"/>
+
+    <node pkg="map_manager" type="map_loader"    name="map_loader"    output="screen">
+        <param name="pcd_path" value="$(arg pcd_path)"/>
+        <param name="map_topic" value="$(arg map_topic)"/>
+    </node>
+
+</launch>

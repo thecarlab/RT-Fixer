@@ -1,0 +1,16 @@
+# Message Frame Definition
+
+global_map:
+    The parent frame of the whole TF tree.
+
+vehicle/local_map:
+
+# Test Step
+
+1. start a roscore
+roscore
+2. start map server
+roslaunch oem_server map_loader.launch namespace:=v1
+
+3. start clients simulation
+roslaunch oem_client clients.launch

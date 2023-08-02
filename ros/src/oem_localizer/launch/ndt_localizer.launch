@@ -1,0 +1,32 @@
+<launch>
+
+    <arg name="input_sensor_points_topic" default="/filtered_points" doc="Sensor points topic"/>
+    <arg name="input_initial_pose_topic" default="/initialpose" doc="Initial position topic to align" />
+    <arg name="input_map_points_topic" default="/points_map" doc="Map points topic" />
+    <arg name="output_pose_topic" default="ndt_pose" doc="Estimated self position" />
+    <arg name="initial_pose_file" default="$(find oem_localizer)/configs/ndt_initial_pose.csv" doc="Set initial pose through file" /> 
+    <!-- tf -->
+    <arg name="map_frame" default="map" doc="Shared map reference frame" />
+    <arg name="base_frame" default="base_link" doc="Vehicle reference frame" />
+
+    <arg name="trans_epsilon" default="0.001" doc="The maximum difference between two consecutive transformations in order to consider convergence" />
+    <arg name="step_size" default="0.1" doc="The newton line search maximum step length" />
+    <arg name="resolution" default="3.0" doc="The ND voxel grid resolution" />
+    <arg name="max_iterations" default="100" doc="The number of iterations required to calculate alignment" />
+
+    <node pkg="oem_localizer" type="ndt_localizer" name="ndt_localizer" output="screen">
+
+        <remap from="points_raw" to="$(arg input_sensor_points_topic)" />
+        <param name="initialpose" value="$(arg input_initial_pose_topic)" />
+        <remap from="pointcloud_map" to="$(arg input_map_points_topic)" />
+        <remap from="ndt_pose" to="$(arg output_pose_topic)" />
+        <param name="map_frame" value="$(arg map_frame)" />
+        <param name="base_frame" value="$(arg base_frame)" />
+        <param name="initial_pose_file" value="$(arg initial_pose_file)"/>
+        
+        <param name="trans_epsilon" value="$(arg trans_epsilon)" />
+        <param name="step_size" value="$(arg step_size)" />
+        <param name="resolution" value="$(arg resolution)" />
+        <param name="max_iterations" value="$(arg max_iterations)" />
+    </node>
+</launch>

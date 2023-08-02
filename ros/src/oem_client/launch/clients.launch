@@ -1,0 +1,126 @@
+<launch>
+    <param name="/use_sim_time" value="true" />
+    <!-- Launch my_launch.launch for v1 -->
+    <include file="$(find oem_client)/launch/client.launch">
+        <arg name="namespace" value="v1" />
+        <arg name="roll" value="-0.020022" />
+        <arg name="pitch" value="-0.00498403" />
+        <arg name="yaw" value="1.11499" />
+        <arg name="x" value="224.818" />
+        <arg name="y" value="-38.8574" />
+        <arg name="z" value="2.07575" />
+        <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/clock/clock_0_100_0.bag" />
+        <arg name="rate" value="1.0" />
+        <arg name="publish_clock" value="true" />
+    </include>
+
+  <!-- Launch my_launch.launch for v2 -->
+  <include file="$(find oem_client)/launch/client.launch">
+    <arg name="namespace" value="v2" />
+    <arg name="roll" value="0.00176524" />
+    <arg name="pitch" value="-0.142819" />
+    <arg name="yaw" value="-2.25277" />
+    <arg name="x" value="340.905" />
+    <arg name="y" value="-255.231" />
+    <arg name="z" value="13.6843" />
+    <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_100_200_0.bag" />
+    <arg name="rate" value="1.0" />
+  </include>
+
+  <include file="$(find oem_client)/launch/client.launch">
+    <arg name="namespace" value="v3" />
+    <arg name="x" value="47.1172" />
+    <arg name="y" value="-286.354" />
+    <arg name="z" value="5.60378" />
+    <arg name="roll" value="0.000635042" />
+    <arg name="pitch" value="-0.0030055" />
+    <arg name="yaw" value="2.66854" />
+    <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_200_300_0.bag" />
+    <arg name="rate" value="1.0" />
+  </include>
+
+  <include file="$(find oem_client)/launch/client.launch">
+    <arg name="namespace" value="v4" />
+    <arg name="x" value="50.8146" />
+    <arg name="y" value="40.671" />
+    <arg name="z" value="-0.467766" />
+    <arg name="roll" value="-0.0175082" />
+    <arg name="pitch" value="-0.00211561" />
+    <arg name="yaw" value="1.71868" />
+    <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_300_400_0.bag" />
+    <arg name="rate" value="1.0" />
+  </include>
+  
+  <include file="$(find oem_client)/launch/client.launch">
+    <arg name="namespace" value="v5" />
+    <arg name="x" value="-280.526" />
+    <arg name="y" value="268.041" />
+    <arg name="z" value="-8.46946" />
+    <arg name="roll" value="-0.0196486" />
+    <arg name="pitch" value="0.0308499" />
+    <arg name="yaw" value="2.76662" />
+    <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_400_500_0.bag" />
+    <arg name="rate" value="1.0" />
+  </include>
+      <include file="$(find oem_client)/launch/client.launch">
+        <arg name="namespace" value="v6" />
+        <arg name="x" value="-392.593" />
+        <arg name="y" value="-304.418" />
+        <arg name="z" value="5.14688" />
+        <arg name="roll" value="0.0156697" />
+        <arg name="pitch" value="-0.05112" />
+        <arg name="yaw" value="-0.375823" />
+        <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_500_600_0.bag" />
+        <arg name="rate" value="1.0" />"
+    </include>
+
+    <include file="$(find oem_client)/launch/client.launch">
+        <arg name="namespace" value="v7" />
+        <arg name="x" value="-70.5268" />
+        <arg name="y" value="-394.231" />
+        <arg name="z" value="11.1009" />
+        <arg name="roll" value="-0.0359059" />
+        <arg name="pitch" value="0.0417539" />
+        <arg name="yaw" value="0.529804" />
+        <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_600_700_0.bag" />
+        <arg name="rate" value="1.0" />"
+    </include>
+
+    <include file="$(find oem_client)/launch/client.launch">
+        <arg name="namespace" value="v8" />
+        <arg name="x" value="283.11" />
+        <arg name="y" value="-612.964" />
+        <arg name="z" value="30.9785" />
+        <arg name="roll" value="-0.0184782" />
+        <arg name="pitch" value="-0.073197" />
+        <arg name="yaw" value="-1.23474" />
+        <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_700_800_0.bag" />
+        <arg name="rate" value="1.0" />"
+    </include>
+
+    <include file="$(find oem_client)/launch/client.launch">
+        <arg name="namespace" value="v9" />
+        <arg name="x" value="393.692" />
+        <arg name="y" value="-917.103" />
+        <arg name="z" value="30.9025" />
+        <arg name="roll" value="-0.0237223" />
+        <arg name="pitch" value="0.0352151" />
+        <arg name="yaw" value="-1.38803" />
+        <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_800_900_0.bag" />
+        <arg name="rate" value="1.0" />"
+    </include>
+
+    <include file="$(find oem_client)/launch/client.launch">
+        <arg name="namespace" value="v10" />
+        <arg name="x" value="706.397" />
+        <arg name="y" value="-848.401" />
+        <arg name="z" value="18.8839" />
+        <arg name="roll" value="-0.0147032" />
+        <arg name="pitch" value="-0.038648" />
+        <arg name="yaw" value="0.42599" />
+        <arg name="bagfile" value="$(env DATA_ROOT)hdl-64s2/segment/segment_segment_900_1000_0.bag" />
+        <arg name="rate" value="1.0" />"
+    </include>
+
+
+</launch>

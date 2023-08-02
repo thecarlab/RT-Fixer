@@ -1,0 +1,6 @@
+<launch>
+<arg name="namespace" default="v1"/>
+<arg name="rate" default="0.3" />
+<arg name="bagfile" default="n_segment_0_100_0.bag" />
+ <node pkg="rosbag" type="play" name="v1_player" args="-r $(arg rate) --prefix=$(arg namespace) --clock $(env DATA_ROOT)hdl-64s2/clock/clock_0_100_0.bag" output="screen"/>
+</launch>

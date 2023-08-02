@@ -1,0 +1,25 @@
+<launch>
+
+  <arg name="namespace" default="v2"/>
+  <arg name="sync" default="false" />
+  <arg name="node_name" default="voxel_grid_filter" />
+  <arg name="points_topic" default="velodyne_points" />
+  <arg name="output_topic" default="filtered_points" />
+  <arg name="localMap_topic" default="odometry_node/local_map" />
+  <arg name="output_LocalMap_topic" default="filtered_localMap" />
+
+  <arg name="output_frame" default="$(arg namespace)/velodyne" />
+  <arg name="output_log" default="false" />
+  <arg name="leaf_size" default="1.5" />
+
+  <node pkg="oem_client" name="$(arg node_name)" type="$(arg node_name)">
+    <param name="points_topic" value="$(arg points_topic)" />
+    <param name="output_topic" value="$(arg output_topic)" />
+    <param name="localMap_topic" value="$(arg localMap_topic)" />
+    <param name="output_LocalMap_topic" value="$(arg output_LocalMap_topic)" />
+    <param name="output_frame" value="$(arg output_frame)" />
+    <remap from="/points_raw" to="sync_drivers/points_raw" if="$(arg sync)" />
+    <param name="output_log" value="$(arg output_log)" />
+    <param name="leaf_size" value="$(arg leaf_size)" />
+  </node>
+</launch>
