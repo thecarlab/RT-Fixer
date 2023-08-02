@@ -25,8 +25,8 @@
         <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_sensor" args="0 0 0 0 0 0 $(arg namespace)/base_link $(arg namespace)/velodyne" />
         <node pkg="oem_client" type="ndt_localizer_node" name="ndt_localizer" output="screen">
             <param name="base_frame" value="$(arg namespace)/base_link" />
-            <param name="load_path_file" value="/mnt/zr/openEdgeMap-Dev/ros/src/oem_client/configs/temp.path" /> 
-            <param name="save_path_file" value="/mnt/zr/openEdgeMap-Dev/ros/src/oem_client/configs/temp2.path" /> 
+            <param name="load_path_file" value="$(find oem_client)/configs/temp.path" /> 
+            <param name="save_path_file" value="$(find oem_client)/configs/temp2.path" /> 
             <!-- <param name="path_file" value="/mnt/zr/openEdgeMap-Dev/ros/src/oem_client/configs/nagoya.path" /> -->
             <param name="map_frame" value="global_map" />
             <param name="sensor_frame" value="$(arg namespace)/velodyne" />
