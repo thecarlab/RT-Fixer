@@ -1,0 +1,6 @@
+# SavePointCloud.srv
+string file_path
+sensor_msgs/PointCloud2 input_cloud
+---
+bool success
+string message

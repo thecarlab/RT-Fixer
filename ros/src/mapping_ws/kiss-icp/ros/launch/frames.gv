@@ -1,0 +1,14 @@
+digraph G {
+"base_link2" -> "base_link"[label="Broadcaster: /odometry_node\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1687797173.832 sec old)\nBuffer length: 0.000 sec\n"];
+"base_link" -> "velodyne"[label="Broadcaster: /base_to_sensor\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1687797173.832 sec old)\nBuffer length: 0.000 sec\n"];
+"base_link2" -> "velodyne2"[label="Broadcaster: /base_to_sensor2\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1687797173.832 sec old)\nBuffer length: 0.000 sec\n"];
+"map" -> "base_link2"[label="Broadcaster: /odometry_node\nAverage rate: 11.089 Hz\nMost recent transform: 1558050908.970 ( 129746264.862 sec old)\nBuffer length: 0.902 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1687797173.832"[ shape=plaintext ] ;
+ }->"odom";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1687797173.832"[ shape=plaintext ] ;
+ }->"map";
+}
