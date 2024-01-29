@@ -10,6 +10,3 @@
 [submodule "ros/src/sensor_ws/livox_ros_driver"]
 	path = ros/src/sensor_ws/livox_ros_driver
 	url = https://github.com/Livox-SDK/livox_ros_driver.git
-[submodule "ros/src/sensor_ws/tiers-lidars-dataset"]
-	path = ros/src/sensor_ws/tiers-lidars-dataset
-	url = https://github.com/TIERS/tiers-lidars-dataset.git
