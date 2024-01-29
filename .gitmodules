@@ -4,3 +4,9 @@
 [submodule "ros/src/sensor_ws/rslidar_sdk"]
 	path = ros/src/sensor_ws/rslidar_sdk
 	url = https://github.com/RoboSense-LiDAR/rslidar_sdk.git
+[submodule "ros/src/livox_ros_driver"]
+	path = ros/src/livox_ros_driver
+	url = https://github.com/Livox-SDK/livox_ros_driver.git
+[submodule "ros/src/sensor_ws/livox_ros_driver"]
+	path = ros/src/sensor_ws/livox_ros_driver
+	url = https://github.com/Livox-SDK/livox_ros_driver.git
