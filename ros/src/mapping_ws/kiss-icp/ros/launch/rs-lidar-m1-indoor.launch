@@ -4,8 +4,8 @@
   <arg name="bagfile" default=""/>
   <arg name="visualize" default="true"/>
   <arg name="odom_frame" default="odom"/>
-  <arg name="child_frame" default="base_link"/>
-  <arg name="topic" default=""/>
+  <arg name="child_frame" default="velodyne"/>
+  <arg name="topic" default="/rslidar_points"/>
 
   <!-- KISS-ICP paramaters -->
   <arg name="deskew" default="False"/>

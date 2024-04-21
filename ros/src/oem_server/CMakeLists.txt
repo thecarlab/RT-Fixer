@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
     tf2
     tf2_ros
     tf2_geometry_msgs
+    tf2_sensor_msgs
     std_msgs
     geometry_msgs
     sensor_msgs
@@ -26,6 +27,7 @@ catkin_package(
     tf2
     tf2_ros
     tf2_geometry_msgs
+    tf2_sensor_msgs
     geometry_msgs
     sensor_msgs
     nav_msgs
@@ -40,3 +42,6 @@ SET(CMAKE_CXX_FLAGS "-O2 -g -Wall ${CMAKE_CXX_FLAGS}")
 
 add_executable(map_loader src/mapLoader.cpp)
 target_link_libraries(map_loader ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+
+add_executable(pcd_with_pose src/pcd_with_pose.cpp)
+target_link_libraries(pcd_with_pose ${catkin_LIBRARIES} ${PCL_LIBRARIES})

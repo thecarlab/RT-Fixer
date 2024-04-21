@@ -3,6 +3,7 @@
     <!-- <param name="/use_sim_time" default="true" />  -->
 <param name="/use_sim_time" value="true" />
 <arg name="namespace" default="v2"/>
+<arg name="map" default="map-1_1.0.pcd"/>
 <group ns="$(arg namespace)">
     <arg name="input_initial_pose_topic" default="map_loader/initialpose" doc="Initial position topic to align" />
     <!-- <arg name="odom_topic" default="/odometry/filtered/global" doc="robot odom topic" /> -->
@@ -18,7 +19,7 @@
     <node pkg="rviz" type="rviz" name="rviz2" args="-d $(find oem_server)/configs/clients.rviz" />
 
     <!--- MapLoader -->    
-    <arg name="pcd_path"  default="$(find oem_server)/maps/map-1_1.0.pcd"/>
+    <arg name="pcd_path"  default="$(find oem_server)/maps/$(arg map)"/>
     
     <arg name="map_topic" default="/global_map"/>
     <arg name="submap_topic" default="submap"/>
@@ -29,7 +30,7 @@
         <param name="map_topic" value="$(arg map_topic)"/>
         <param name="submap_topic" value="$(arg submap_topic)"/>
         <param name="local_map_frame" value="$(arg local_map_frame)"/>
-        <param name="robot_pose_topic" value="/update_robot_pose"/>
+        <param name="robot_pose_topic" value="/switchMap"/>
         <param name="init_pose_topic" value="$(arg input_initial_pose_topic)"/>
 
         <param name="submap_size_xy" value="$(arg submap_size_xy)"/>

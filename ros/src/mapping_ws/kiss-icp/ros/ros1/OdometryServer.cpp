@@ -179,21 +179,22 @@ bool OdometryServer::clear_local_map(std_srvs::Empty::Request  &req,
          std_srvs::Empty::Response &res){
 
              // Broadcast the tf
-            globalMap_to_localMap_tf.header.stamp = ros::Time::now();
-            globalMap_to_localMap_tf.header.frame_id = odom_frame_;
-            globalMap_to_localMap_tf.child_frame_id = child_frame_;
-            globalMap_to_localMap_tf.transform.rotation.w = 1.0;
-            tf_broadcaster_.sendTransform(globalMap_to_localMap_tf);
-            ROS_INFO("reset local tf");
+            // globalMap_to_localMap_tf.header.stamp = ros::Time::now();
+            // globalMap_to_localMap_tf.header.frame_id = odom_frame_;
+            // globalMap_to_localMap_tf.child_frame_id = child_frame_;
+            // globalMap_to_localMap_tf.transform.rotation.w = 1.0;
+            // tf_broadcaster_.sendTransform(globalMap_to_localMap_tf);
+            // ROS_INFO("reset local tf");
 
-            std_msgs::Header local_update_header;
-            local_update_header.stamp = ros::Time::now();
-            local_update_header.frame_id = odom_frame_;
-            local_update_publisher_.publish(utils::EigenToPointCloud2(odometry_.LocalMap(), local_update_header));
+            // std_msgs::Header local_update_header;
+            // local_update_header.stamp = ros::Time::now();
+            // local_update_header.frame_id = odom_frame_;
+            // local_update_publisher_.publish(utils::EigenToPointCloud2(odometry_.LocalMap(), local_update_header));
 
             // local_update_publisher_.publish(utils::EigenToPointCloud2(odometry_.LocalMap(), local_map_header));
-            odometry_.ClearMap();
-            odometry_.ClearPose();
+            // odometry_.ClearMap();
+            // odometry_.ClearPose();
+            odometry_ = kiss_icp::pipeline::KissICP(config_);
             ROS_INFO("Clear local map");
 
             
