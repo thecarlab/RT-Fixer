@@ -1,0 +1,99 @@
+<!-- FILEPATH: /home/eve/wsl_ws/OpenEdgeMap/ros/src/oem_simulator/launch/hdl_64s2 -->
+
+<launch>
+    <arg name="namespace" default="v1" />
+    <arg name="bagfile" default="/mnt/Data/Around-Nagoya-Univerrsity/hdl-64s2/velodyne-hdl64s2_2019-05-17-08-54-30--fixed_frame_id.bag" />
+    <arg name="rate" default="1.0" />
+    <arg name="publish_clock" default="true" />
+
+    <arg name="base_sensor_roll" default="0" />
+    <arg name="base_sensor_pitch" default="0" />
+    <arg name="base_sensor_yaw" default="0" />
+    <arg name="base_sensor_x" default="2.0" />
+    <arg name="base_sensor_y" default="0" />
+    <arg name="base_sensor_z" default="1.8" />
+
+    <!-- Include launch file in group named "v1" -->
+    <group ns="$(arg namespace)">
+        <!-- sensors -->
+        <include file="$(find velodyne_pointcloud)/launch/64e_S3.launch" />
+
+        <!-- mapping node -->
+        <include file="$(find kiss_icp)/launch/n_odometry.launch">
+            <arg name="topic" value="velodyne_points" />
+            <arg name="odom_frame" value="$(arg namespace)/local_odom" />
+            <arg name="sensor_frame" value="$(arg namespace)/local_sensor" />
+            <arg name="deskew" value="false" />
+            <arg name="visualize" value="false" />
+            <arg name="max_range" value="200.0" />
+            <arg name="min_range" value="3.0" />
+            <arg name="voxel_size" value="" />
+        </include>
+
+        <node pkg="tf2_ros" type="static_transform_publisher" name="local_base_to_odom" 
+        args="$(arg base_sensor_x) $(arg base_sensor_y) $(arg base_sensor_z) $(arg base_sensor_yaw) $(arg base_sensor_pitch) $(arg base_sensor_roll) $(arg namespace)/local_map_frame $(arg namespace)/local_odom" />
+
+        <!-- localization node -->
+        <include file="$(find oem_client)/launch/client.launch">
+            <!-- Set any required arguments for the included launch file here -->
+            <!-- For example: -->
+            <!-- <arg name="arg1" value="value1" /> -->
+            <!-- <arg name="arg2" value="value2" /> -->
+            <arg name="roll" value="0.0" />
+            <arg name="pitch" value="0.0" />
+            <arg name="yaw" value="0.0" />
+            <arg name="x" value="0.0" />
+            <arg name="y" value="0.0" />
+            <arg name="z" value="0.0" />
+
+            <arg name="base_sensor_roll" value="$(arg base_sensor_roll)" />
+            <arg name="base_sensor_pitch" value="$(arg base_sensor_pitch)" />
+            <arg name="base_sensor_yaw" value="$(arg base_sensor_yaw)" />
+            <arg name="base_sensor_x" value="$(arg base_sensor_x)" />
+            <arg name="base_sensor_y" value="$(arg base_sensor_y)" />
+            <arg name="base_sensor_z" value="$(arg base_sensor_z)" />
+
+            <arg name="sensor_base_qx" value="0.0" />
+            <arg name="sensor_base_qy" value="0.0" />
+            <arg name="sensor_base_qz" value="0.0" />
+            <arg name="sensor_base_qw" value="1.0" />
+            <arg name="sensor_base_x" value="-2.0" />
+            <arg name="sensor_base_y" value="0.0" />
+            <arg name="sensor_base_z" value="-1.8" />
+
+            <!-- TF name setting -->
+            <arg name="map_frame" value="global_map" />
+            <arg name="base_frame" value="$(arg namespace)/base_link" />
+            <arg name="sensor_frame" value="$(arg namespace)/velodyne" />
+            <arg name="local_map_frame" value="$(arg namespace)/local_map_frame" />
+
+            <!-- Historical path information -->
+            <arg name="load_path_file" value="" />
+            <arg name="save_path_file" value="$(find oem_client)/configs/temp2.path" />
+
+            <arg name="trans_epsilon" value="0.001" />
+            <arg name="step_size" value="0.1" />
+            <arg name="resolution" value="2.0" />
+
+            <arg name="voxel_leaf_size" value="0.5" />
+
+
+            <arg name="max_iterations" value="100" />
+            <arg name="odometry_refresh_thres" value="1000.0" />
+            <arg name="map_switch_thres" value="50.0" />
+
+            <arg name="raw_pointcloud_topic" default="velodyne_points" />
+            <arg name="filtered_pointcloud_topic" default="filtered_points" />
+            
+            <arg name="raw_localMap_topic" default="odometry_node/local_map" />
+            <arg name="filtered_localMap_topic" default="filtered_localMap" />
+        </include>
+    </group>
+
+<!--    
+    <node  if="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) -p $(arg namespace) -clock $(arg bagfile)" output="screen"/>
+    <node  unless="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) -p $(arg namespace) $(arg bagfile)" output="screen"/>  -->
+
+
+</launch>
+

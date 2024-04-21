@@ -1,3 +1,24 @@
+# 
+
+sudo apt-get update
+sudo apt-get install libpcap-dev
+sudo apt-get install ros-$ROS_DISTRO-pcl-ros
+
+
+# Build
+
+1. Install python catkin tools
+
+suod apt-get update & sudo apt-get install python3-catkin-tools
+
+2. Go to folder OpenEdgeMap/ros/src
+
+caktin_init_workspace
+
+3. Go to OpenEdgeMap/ros
+
+catkin build
+
 # Message Frame Definition
 
 global_map:

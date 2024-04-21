@@ -1,0 +1,10 @@
+<launch>
+    <arg name="map" default="map-1_1.0.pcd"/>
+    <arg name="pcd_path"  default="$(find oem_server)/maps/$(arg map)"/>
+    <arg name="scale_factor" default="0.8"/>
+
+    <node name="map_merge" pkg="oem_server" type="map_merge" output="screen">
+        <param name="pcd_path" value="$(arg pcd_path)"/>
+        <param name="scale_factor" value="$(arg scale_factor)"/>
+    </node>
+</launch>

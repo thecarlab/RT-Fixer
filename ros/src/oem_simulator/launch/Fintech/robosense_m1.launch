@@ -1,0 +1,70 @@
+<!-- FILEPATH: /home/eve/wsl_ws/OpenEdgeMap/ros/src/oem_simulator/launch/hdl_64s2 -->
+
+<launch>
+    <arg name="namespace" default="v1" />
+    <arg name="bagfile" default="/mnt/Data/2024-03-06-19-10-09.bag" />
+    <arg name="rate" default="1.0" />
+    <arg name="publish_clock" default="true" />
+
+    <!-- Include launch file in group named "v1" -->
+    <group ns="$(arg namespace)">
+
+        <!-- mapping node -->
+        <include file="$(find kiss_icp)/launch/n_odometry.launch">
+            <arg name="topic" value="rslidar_points" />
+            <arg name="odom_frame" value="$(arg namespace)/local_odom" />
+            <arg name="child_frame" value="$(arg namespace)/local_base_link" />
+            <arg name="deskew" value="False" />
+            <arg name="visualize" value="True" />
+            <arg name="max_range" value="10.0" />
+            <arg name="min_range" value="0.5" />
+            <arg name="voxel_size" value="" />
+        </include>
+
+
+        <!-- localization node -->
+        <include file="$(find oem_client)/launch/client.launch">
+            <!-- Set any required arguments for the included launch file here -->
+            <!-- For example: -->
+            <!-- <arg name="arg1" value="value1" /> -->
+            <!-- <arg name="arg2" value="value2" /> -->
+            <arg name="roll" value="0" />
+            <arg name="pitch" value="0" />
+            <arg name="yaw" value="0" />
+            <arg name="x" value="0" />
+            <arg name="y" value="0" />
+            <arg name="z" value="0" />
+
+            <!-- TF name setting -->
+            <arg name="map_frame" value="global_map" />
+            <arg name="base_frame" value="$(arg namespace)/base_link" />
+            <arg name="sensor_frame" value="$(arg namespace)/velodyne" />
+
+            <!-- Historical path information -->
+            <arg name="load_path_file" value="" />
+            <arg name="save_path_file" value="$(find oem_client)/configs/fintech.path" />
+
+            <arg name="trans_epsilon" value="0.001" />
+            <arg name="step_size" value="0.1" />
+            <arg name="resolution" value="1.5" />
+
+            <arg name="voxel_leaf_size" value="0.5" />
+
+            <arg name="max_iterations" value="100" />
+            <arg name="map_switch_thres" value="40.0" />
+
+            <arg name="raw_pointcloud_topic" default="rslidar_points" />
+            <arg name="filtered_pointcloud_topic" default="filtered_points" />
+            
+            <arg name="raw_localMap_topic" default="odometry_node/local_map" />
+            <arg name="filtered_localMap_topic" default="filtered_localMap" />
+        </include>
+    </group>
+
+<!--    
+    <node  if="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) -p $(arg namespace) -clock $(arg bagfile)" output="screen"/>
+    <node  unless="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) -p $(arg namespace) $(arg bagfile)" output="screen"/>  -->
+
+
+</launch>
+

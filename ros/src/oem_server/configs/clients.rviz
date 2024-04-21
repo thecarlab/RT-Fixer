@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 78
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -8,33 +8,16 @@ Panels:
         - /TF1/Frames1
         - /global_map1
         - /history_waypoints1
+        - /v11/ndt_pose1
+        - /v11/ndt_pose1/Shape1
+        - /v11/localMap1
+        - /v11/submap1
         - /v11/Odometry1/Shape1
-        - /v21/points_aligned1
-        - /v21/ndt_pose1
-        - /v21/localMap1
-        - /v21/submap1
-        - /v31/points_aligned1
-        - /v31/ndt_pose1
-        - /v31/localMap1
-        - /v31/submap1
-        - /v41/points_aligned1
-        - /v41/ndt_pose1
-        - /v41/localMap1
-        - /v41/submap1
-        - /v51/points_aligned1
-        - /v51/ndt_pose1
-        - /v51/localMap1
-        - /v51/submap1
-        - /v61/Odometry2
-        - /v71/points_aligned1
-        - /v71/Odometry2
-        - /v91/ndt_pose1
-        - /v91/localMap1
-        - /v101/points_aligned1
-        - /v101/localMap1
-        - /v101/Odometry2
-      Splitter Ratio: 0.4799196720123291
-    Tree Height: 1280
+        - /PointCloud21
+        - /PointCloud22
+        - /PointCloud23
+      Splitter Ratio: 0.3837011754512787
+    Tree Height: 1146
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -50,10 +33,9 @@ Panels:
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz/Time
-    Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: global_map
+    SyncSource: submap
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -80,7 +62,9 @@ Visualization Manager:
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
+      Filter (blacklist): ""
+      Filter (whitelist): ""
       Frame Timeout: 1000
       Frames:
         All Enabled: false
@@ -93,7 +77,7 @@ Visualization Manager:
       Tree:
         {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Alpha: 0.10000000149011612
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -106,7 +90,7 @@ Visualization Manager:
       Color: 85; 87; 83
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
@@ -121,7 +105,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/Polygon
       Color: 25; 255; 0
@@ -145,7 +129,7 @@ Visualization Manager:
           Color: 138; 226; 52
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Min Color: 0; 0; 0
@@ -160,7 +144,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Angle Tolerance: 0.10000000149011612
           Class: rviz/Odometry
           Covariance:
@@ -178,8 +162,8 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: false
-          Enabled: false
-          Keep: 10000
+          Enabled: true
+          Keep: 100
           Name: ndt_pose
           Position Tolerance: 0.10000000149011612
           Queue Size: 10
@@ -192,11 +176,11 @@ Visualization Manager:
             Head Radius: 0.5
             Shaft Length: 1
             Shaft Radius: 0.20000000298023224
-            Value: Arrow
+            Value: Axes
           Topic: /v1/ndt_pose
           Unreliable: false
-          Value: false
-        - Alpha: 0.5
+          Value: true
+        - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
             Max Value: 7.776463508605957
@@ -216,7 +200,7 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 3
+          Size (Pixels): 5
           Size (m): 0.009999999776482582
           Style: Points
           Topic: /v1/filtered_localMap
@@ -247,7 +231,7 @@ Visualization Manager:
           Size (Pixels): 3
           Size (m): 0.05000000074505806
           Style: Points
-          Topic: /v1/submap
+          Topic: /v1/filtered_submap
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -270,1762 +254,109 @@ Visualization Manager:
               Value: true
             Value: true
           Enabled: true
-          Keep: 1
+          Keep: 100
           Name: Odometry
           Position Tolerance: 0.10000000149011612
           Queue Size: 10
           Shape:
             Alpha: 1
-            Axes Length: 1
+            Axes Length: 2
             Axes Radius: 0.10000000149011612
             Color: 255; 25; 0
             Head Length: 40
             Head Radius: 40
             Shaft Length: 40
             Shaft Radius: 20
-            Value: Arrow
-          Topic: /v1/ndt_pose
+            Value: Axes
+          Topic: /v1/lidar_odom_pose
           Unreliable: false
           Value: true
       Enabled: true
       Name: v1
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v2/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v2/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v2/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v2/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v2/ndt_pose
-          Unreliable: false
-          Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 22.730310440063477
+        Min Value: -2.952725410461426
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 0; 0; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /test/transformed_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 22.730310440063477
+        Min Value: -2.952725410461426
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 0; 0
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 5
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /test/filtered_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 22.730310440063477
+        Min Value: -2.952725410461426
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 0
+      Color Transformer: ""
+      Decay Time: 0
       Enabled: true
-      Name: v2
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v3/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v3/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v3/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v3/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v3/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v3
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v4/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v4/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v4/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v4/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v4/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v4
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v5/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v5/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v5/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v5/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v5/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v5
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v6/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: false
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v6/ndt_pose
-          Unreliable: false
-          Value: false
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v6/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v6/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v6/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v6
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v7/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v7/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v7/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v7/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v7/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v7
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v8/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v8/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v8/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: ""
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v8/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v8/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v8
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v9/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v9/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: ""
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v9/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v9/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v9/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v9
-    - Class: rviz/Group
-      Displays:
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 9.793695449829102
-            Min Value: -0.7350764274597168
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 138; 226; 52
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: points_aligned
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 6
-          Size (m): 0.20000000298023224
-          Style: Points
-          Topic: /v10/filtered_points
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: false
-          Enabled: true
-          Keep: 10000
-          Name: ndt_pose
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 237; 212; 0
-            Head Length: 0.30000001192092896
-            Head Radius: 0.5
-            Shaft Length: 1
-            Shaft Radius: 0.20000000298023224
-            Value: Arrow
-          Topic: /v10/ndt_pose
-          Unreliable: false
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 7.776463508605957
-            Min Value: -10.502470016479492
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 206; 92; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: localMap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.009999999776482582
-          Style: Points
-          Topic: /v10/filtered_localMap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 0.5
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 36.72496032714844
-            Min Value: -4.307971954345703
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Min Color: 0; 0; 0
-          Name: submap
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.05000000074505806
-          Style: Points
-          Topic: /v10/submap
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: false
-          Keep: 100
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 4
-            Head Radius: 3
-            Shaft Length: 10
-            Shaft Radius: 1
-            Value: Arrow
-          Topic: /v1/localMap_pose
-          Unreliable: false
-          Value: false
-        - Angle Tolerance: 0.10000000149011612
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: true
-            Position:
-              Alpha: 0.30000001192092896
-              Color: 204; 51; 204
-              Scale: 1
-              Value: true
-            Value: true
-          Enabled: true
-          Keep: 1
-          Name: Odometry
-          Position Tolerance: 0.10000000149011612
-          Queue Size: 10
-          Shape:
-            Alpha: 1
-            Axes Length: 1
-            Axes Radius: 0.10000000149011612
-            Color: 255; 25; 0
-            Head Length: 40
-            Head Radius: 40
-            Shaft Length: 40
-            Shaft Radius: 20
-            Value: Arrow
-          Topic: /v10/ndt_pose
-          Unreliable: false
-          Value: true
-      Enabled: true
-      Name: v10
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: ""
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 5
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /test/registered_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -2054,7 +385,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1311.9794921875
+      Distance: 175.02383422851562
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -2062,25 +393,25 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 16.774829864501953
-        Y: -181.3743438720703
-        Z: -21.594358444213867
-      Focal Shape Fixed Size: true
+        X: 15.99413013458252
+        Y: -136.0912322998047
+        Z: -41.91423416137695
+      Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4897964000701904
+      Pitch: 1.5647963285446167
       Target Frame: <Fixed Frame>
-      Yaw: 4.06998872756958
+      Yaw: 2.927232027053833
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1577
+  Height: 1359
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001f40000058bfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000058b000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f0000058bfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d0000058b000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000a3a0000003efc0100000002fb0000000800540069006d0065010000000000000a3a000002eb00fffffffb0000000800540069006d006501000000000000045000000000000000000000072b0000058b00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000024f000004b5fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b000004b5000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000004b5fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003b000004b5000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009f40000003efc0100000002fb0000000800540069006d00650100000000000009f40000030700fffffffb0000000800540069006d006501000000000000045000000000000000000000068a000004b500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -2089,6 +420,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 2618
-  X: 232
-  Y: 408
+  Width: 2548
+  X: 1180
+  Y: 93

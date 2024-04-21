@@ -1,0 +1,51 @@
+<launch>
+
+    <arg name="namespace" default="v2"/>
+
+    <arg name="roll" default="0.0" />
+    <arg name="pitch" default="0.0" />
+    <arg name="yaw" default="0.0" />
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.0" />
+
+    <arg name="bagfile" default="n_segment_0_100_0.bag" />
+    <arg name="rate" default="0.3" />
+    <arg name="publish_clock" default="false" />
+    <node  if="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) --prefix=$(arg namespace) --clock $(arg bagfile)" output="screen"/>
+    <node  unless="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) --prefix=$(arg namespace) $(arg bagfile)" output="screen"/>
+
+    <group ns="$(arg namespace)">
+
+        <include file="$(find velodyne_pointcloud)/launch/64e_S3.launch" />
+        <include file="$(find oem_client)/launch/points_downsample_test.launch">
+            <arg name="namespace" value="$(arg namespace)"/>
+        </include>
+
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_sensor" args="0 0 0 0 0 0 $(arg namespace)/base_link $(arg namespace)/velodyne" />
+        <node pkg="oem_client" type="ndt_localizer_node" name="ndt_localizer" output="screen">
+            <param name="base_frame" value="$(arg namespace)/base_link" />
+            <param name="load_path_file" value="$(find oem_client)/configs/temp.path" /> 
+            <param name="save_path_file" value="$(find oem_client)/configs/temp2.path" /> 
+            <!-- <param name="path_file" value="/mnt/zr/openEdgeMap-Dev/ros/src/oem_client/configs/nagoya.path" /> -->
+            <param name="map_frame" value="global_map" />
+            <param name="sensor_frame" value="$(arg namespace)/velodyne" />
+
+            <param name="trans_epsilon" value="0.001" />
+            <param name="step_size" value="0.1" />cd 
+            <param name="resolution" value="3.0" />
+            
+            <param name="max_iterations" value="100" />
+            <param name="map_switch_thres" value="40.0"/>
+
+            <param name="roll" value="$(arg roll)" />
+            <param name="pitch" value="$(arg pitch)" />
+            <param name="yaw" value="$(arg yaw)" />
+            <param name="x" value="$(arg x)" />
+            <param name="y" value="$(arg y)" />
+            <param name="z" value="$(arg z)" />
+        </node>
+    </group>
+
+    
+</launch>

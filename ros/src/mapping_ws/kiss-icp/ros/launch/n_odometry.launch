@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-<arg name="namespace" default="v2"/>
-<group ns="$(arg namespace)">
   <!-- ROS paramaters -->
   <arg name="bagfile" default=""/>
   <arg name="visualize" default="true"/>
+  <arg name="base_frame" default="base_link"/>
   <arg name="odom_frame" default="odom"/>
-  <arg name="child_frame" default="base_link"/>
+  <arg name="sensor_frame" default="velodyne"/>
   <arg name="topic" default=""/>
 
   <!-- KISS-ICP paramaters -->
@@ -14,14 +13,13 @@
   <arg name="max_range" default="200.0" />
   <arg name="min_range" default="3.0" />
   <arg name="voxel_size" default="" />
-	 
 
   <!-- Odometry node -->
   <node pkg="kiss_icp" type="odometry_node" name="odometry_node" output="screen">
     <!-- ROS params -->
     <remap from="pointcloud_topic" to="$(arg topic)"/>
     <param name="odom_frame" value="$(arg odom_frame)"/>
-    <param name="child_frame" value="$(arg child_frame)"/>
+    <param name="child_frame" value="$(arg sensor_frame)"/>
     <!-- KISS-ICP params -->
     <param name="max_range" value="$(arg max_range)"/>
     <param name="min_range" value="$(arg min_range)"/>
@@ -32,8 +30,8 @@
     <param name="min_motion_th" value="0.1" />
   </node>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find kiss_icp)/rviz/kiss_icp_ros1.rviz"/>
-
+  <group if="$(arg visualize)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find kiss_icp)/rviz/kiss_icp_ros1.rviz"/>
   </group>
 
 </launch>

@@ -1,7 +1,6 @@
 <launch>
 
-    <arg name="namespace" default="v2"/>
-
+    <!-- Manually set NDT initialization pose -->
     <arg name="roll" default="0.0" />
     <arg name="pitch" default="0.0" />
     <arg name="yaw" default="0.0" />
@@ -9,43 +8,114 @@
     <arg name="y" default="0.0" />
     <arg name="z" default="0.0" />
 
-    <arg name="bagfile" default="n_segment_0_100_0.bag" />
-    <arg name="rate" default="0.3" />
-    <arg name="publish_clock" default="false" />
-    <node  if="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) --prefix=$(arg namespace) --clock $(arg bagfile)" output="screen"/>
-    <node  unless="$(arg publish_clock)" pkg="rosbag" type="play" name="$(arg namespace)_player" args="-r $(arg rate) --prefix=$(arg namespace) $(arg bagfile)" output="screen"/>
+    <arg name="base_sensor_roll" default="0.0" />
+    <arg name="base_sensor_pitch" default="0.0" />
+    <arg name="base_sensor_yaw" default="0.0" />
+    <arg name="base_sensor_x" default="0.0" />
+    <arg name="base_sensor_y" default="0.0" />
+    <arg name="base_sensor_z" default="0.0" />
 
-    <group ns="$(arg namespace)">
+    <arg name="sensor_base_qx" default="0.0" />
+    <arg name="sensor_base_qy" default="0.0" />
+    <arg name="sensor_base_qz" default="0.0" />
+    <arg name="sensor_base_qw" default="1.0" />
+    <arg name="sensor_base_x" default="0.0" />
+    <arg name="sensor_base_y" default="0.0" />
+    <arg name="sensor_base_z" default="0.0" />
 
-        <include file="$(find velodyne_pointcloud)/launch/64e_S3.launch" />
-        <include file="$(find oem_client)/launch/points_downsample_test.launch">
-            <arg name="namespace" value="$(arg namespace)"/>
-        </include>
+    <!-- TF name setting -->
+    <arg name="map_frame" default="global_map" />
+    <arg name="base_frame" default="base_link" />
+    <arg name="sensor_frame" default="velodyne" />
+    <arg name="local_map_frame" default="local_map_frame" />
+    <arg name="local_odom_frame" default="local_odom" />
 
-        <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_sensor" args="0 0 0 0 0 0 $(arg namespace)/base_link $(arg namespace)/velodyne" />
-        <node pkg="oem_client" type="ndt_localizer_node" name="ndt_localizer" output="screen">
-            <param name="base_frame" value="$(arg namespace)/base_link" />
-            <param name="load_path_file" value="$(find oem_client)/configs/temp.path" /> 
-            <param name="save_path_file" value="$(find oem_client)/configs/temp2.path" /> 
-            <!-- <param name="path_file" value="/mnt/zr/openEdgeMap-Dev/ros/src/oem_client/configs/nagoya.path" /> -->
-            <param name="map_frame" value="global_map" />
-            <param name="sensor_frame" value="$(arg namespace)/velodyne" />
+    <!-- Historical path information -->
+    <arg name="load_path_file" default="$(find oem_client)/configs/temp.path" />
+    <arg name="save_path_file" default="$(find oem_client)/configs/temp2.path" />
 
-            <param name="trans_epsilon" value="0.001" />
-            <param name="step_size" value="0.1" />cd 
-            <param name="resolution" value="3.0" />
-            
-            <param name="max_iterations" value="100" />
-            <param name="map_switch_thres" value="40.0"/>
+    <arg name="trans_epsilon" default="0.001" />
+    <arg name="step_size" default="0.1" />
+    <arg name="resolution" default="3.0" />
 
-            <param name="roll" value="$(arg roll)" />
-            <param name="pitch" value="$(arg pitch)" />
-            <param name="yaw" value="$(arg yaw)" />
-            <param name="x" value="$(arg x)" />
-            <param name="y" value="$(arg y)" />
-            <param name="z" value="$(arg z)" />
-        </node>
-    </group>
+    <arg name="voxel_leaf_size" default="3.0" />
 
+    <arg name="max_iterations" default="100" />
+    <arg name="map_switch_thres" default="40.0" />
+    <arg name="odometry_refresh_thres" default="40.0" />
+
+    <arg name="raw_pointcloud_topic" default="velodyne_points" />
+    <arg name="filtered_pointcloud_topic" default="filtered_points" />
     
+    <arg name="raw_localMap_topic" default="odometry_node/local_map" />
+    <arg name="filtered_localMap_topic" default="filtered_localMap" />
+
+
+    <include file="$(find oem_client)/launch/points_downsample_test.launch">
+        <arg name="sync" value="false" />
+        <arg name="node_type" value="voxel_grid_filter" />
+        <arg name="node_name" value="voxel_grid_filter" />
+        <arg name="points_topic" value="$(arg raw_pointcloud_topic)" />
+        <arg name="output_topic" value="$(arg filtered_pointcloud_topic)" />
+        <arg name="localMap_topic" value="$(arg raw_localMap_topic)" />
+        <arg name="output_LocalMap_topic" value="$(arg filtered_localMap_topic)" />
+
+        <arg name="output_frame" value="$(arg sensor_frame)" />
+        <arg name="output_log" value="false" />
+        <arg name="leaf_size" value="$(arg voxel_leaf_size)" />
+    </include>
+
+    <include file="$(find oem_client)/launch/points_downsample_test.launch">
+        <arg name="sync" value="false" />
+        <arg name="node_type" value="voxel_grid_filter" />
+        <arg name="node_name" value="voxel_grid_filter2" />
+        <arg name="points_topic" value="pointcloud" />
+        <arg name="output_topic" value="filtered_pointcloud" />
+        <arg name="localMap_topic" value="/v1/submap" />
+        <arg name="output_LocalMap_topic" value="/v1/filtered_submap" />
+
+        <arg name="output_frame" value="$(arg sensor_frame)" />
+        <arg name="output_log" value="false" />
+        <arg name="leaf_size" value="$(arg voxel_leaf_size)" />
+    </include>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_sensor" 
+        args="$(arg base_sensor_x) $(arg base_sensor_y) $(arg base_sensor_z) $(arg base_sensor_yaw) $(arg base_sensor_pitch) $(arg base_sensor_roll) $(arg base_frame) $(arg sensor_frame)" />
+
+    <node pkg="oem_client" type="movement_tracker.py" name="movement_tracker" output="screen">
+        <param name="base_frame" value="$(arg base_frame)" />
+        <param name="local_map_frame" value="$(arg local_map_frame)" />
+        <param name="mapShiftThresh" value="$(arg map_switch_thres)" />
+        <param name="odomRefreshThresh" value="$(arg odometry_refresh_thres)" />
+        <param name="sensor_base_x" value="$(arg sensor_base_x)" />
+        <param name="sensor_base_y" value="$(arg sensor_base_y)" />
+        <param name="sensor_base_z" value="$(arg sensor_base_z)" />
+        <param name="sensor_base_qx" value="$(arg sensor_base_qx)" />
+        <param name="sensor_base_qy" value="$(arg sensor_base_qy)" />
+        <param name="sensor_base_qz" value="$(arg sensor_base_qz)" />
+        <param name="sensor_base_qw" value="$(arg sensor_base_qw)" />
+    </node>
+
+    <node pkg="oem_localizer" type="ndt_localizer_node" name="ndt_localizer">
+        <param name="base_frame" value="$(arg base_frame)" />
+        <param name="load_path_file" value="$(arg load_path_file)" /> 
+        <param name="save_path_file" value="$(arg save_path_file)" /> 
+        <param name="map_frame" value="$(arg map_frame)" />
+        <param name="sensor_frame" value="$(arg sensor_frame)" />
+
+        <param name="trans_epsilon" value="$(arg trans_epsilon)" />
+        <param name="step_size" value="$(arg step_size)" />
+        <param name="resolution" value="$(arg resolution)" />
+            
+        <param name="max_iterations" value="$(arg max_iterations)" />
+        <param name="map_switch_thres" value="$(arg map_switch_thres)"/>
+
+        <param name="roll" value="$(arg roll)" />
+        <param name="pitch" value="$(arg pitch)" />
+        <param name="yaw" value="$(arg yaw)" />
+        <param name="x" value="$(arg x)" />
+        <param name="y" value="$(arg y)" />
+        <param name="z" value="$(arg z)" />
+    </node>
+
 </launch>
