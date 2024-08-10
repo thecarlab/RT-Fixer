@@ -13,6 +13,8 @@
     <arg name="base_sensor_y" default="0" />
     <arg name="base_sensor_z" default="1.8" />
 
+    <arg name="odometry_update_thresh" default="5.0" />
+
     <!-- Include launch file in group named "v1" -->
     <group ns="$(arg namespace)">
         <!-- sensors -->
@@ -75,18 +77,19 @@
             <arg name="local_map_frame" value="$(arg namespace)/local_map_frame" />
 
             <!-- Historical path information -->
-            <arg name="load_path_file" value="$(find oem_client)/configs/temp.path" />
+            <!-- <arg name="load_path_file" value="$(find oem_client)/configs/temp.path" /> -->
+            <arg name="load_path_file" value="" />
             <arg name="save_path_file" value="$(find oem_client)/configs/temp2.path" />
 
             <arg name="trans_epsilon" value="0.001" />
             <arg name="step_size" value="0.1" />
-            <arg name="resolution" value="2.0" />
+            <arg name="resolution" value="5.0" />
 
-            <arg name="voxel_leaf_size" value="0.5" />
+            <arg name="voxel_leaf_size" value="3.0" />
 
 
             <arg name="max_iterations" value="100" />
-            <arg name="odometry_refresh_thres" value="50.0" />
+            <arg name="odometry_refresh_thres" value="$(arg odometry_update_thresh)" />
             <arg name="map_switch_thres" value="50.0" />
 
             <arg name="raw_pointcloud_topic" default="velodyne_points" />

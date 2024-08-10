@@ -32,12 +32,12 @@
             <!-- For example: -->
             <!-- <arg name="arg1" value="value1" /> -->
             <!-- <arg name="arg2" value="value2" /> -->
-            <arg name="roll" value="0.011" />
-            <arg name="pitch" value="-0.005" />
-            <arg name="yaw" value="-0.411" />
-            <arg name="x" value="-20.011" />
-            <arg name="y" value="5.035" />
-            <arg name="z" value="7.878" />
+            <arg name="roll" value="0" />
+            <arg name="pitch" value="0" />
+            <arg name="yaw" value="0" />
+            <arg name="x" value="0" />
+            <arg name="y" value="0" />
+            <arg name="z" value="0" />
 
             <!-- TF name setting -->
             <arg name="map_frame" value="global_map" />

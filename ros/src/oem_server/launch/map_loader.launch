@@ -24,6 +24,11 @@
     <arg name="map_topic" default="/global_map"/>
     <arg name="submap_topic" default="submap"/>
 
+    <arg name="hash_voxel_size" default="2.0"/>
+    <arg name="crop_size" default="20.0"/>
+    <arg name="filter_radius" default="10.0"/>
+    <arg name="filter_points" default="300.0"/>
+
 
     <node pkg="oem_server" type="map_loader"    name="map_loader"    output="screen">
         <param name="pcd_path" value="$(arg pcd_path)"/>
@@ -36,6 +41,11 @@
         <param name="submap_size_xy" value="$(arg submap_size_xy)"/>
         <param name="submap_size_z" value="$(arg submap_size_z)"/>
         <param name="map_switch_thres" value="$(arg map_switch_thres)"/>
+
+        <param name="hash_voxel_size" value="$(arg hash_voxel_size)"/>
+        <param name="crop_size" value="$(arg crop_size)"/>
+        <param name="filter_radius" value="$(arg filter_radius)"/>
+        <param name="filter_points" value="$(arg filter_points)"/>
     </node>
 </group>
 </launch>

@@ -1,10 +1,14 @@
 <launch>
     <arg name="map" default="map-1_1.0.pcd"/>
     <arg name="pcd_path"  default="$(find oem_server)/maps/$(arg map)"/>
-    <arg name="scale_factor" default="0.8"/>
+    <arg name="scale_factor" default="0.5"/>
+    <arg name="filter_radius" default="10.0"/>
+    <arg name="filter_points" default="100.0"/>
 
     <node name="map_merge" pkg="oem_server" type="map_merge" output="screen">
         <param name="pcd_path" value="$(arg pcd_path)"/>
         <param name="scale_factor" value="$(arg scale_factor)"/>
+        <param name="filter_radius" value="$(arg filter_radius)"/>
+        <param name="filter_points" value="$(arg filter_points)"/>
     </node>
 </launch>

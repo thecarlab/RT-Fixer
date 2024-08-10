@@ -105,6 +105,7 @@ OdometryServer::OdometryServer(const ros::NodeHandle &nh, const ros::NodeHandle 
 
     // publish odometry msg
     ROS_INFO("KISS-ICP ROS 1 Odometry Node Initialized");
+    ROS_INFO("KISS-ICP ROS 1 Odometry Node Initialized");
 }
 
 void OdometryServer::RegisterFrame(const sensor_msgs::PointCloud2 &msg) {

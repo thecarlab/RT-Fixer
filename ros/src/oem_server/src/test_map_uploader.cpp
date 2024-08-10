@@ -11,6 +11,7 @@
 #include <tf/transform_listener.h> 
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
+#include <pcl/filters/radius_outlier_removal.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 pcl::PointCloud<pcl::PointXYZ>::Ptr global_map_ptr_;
@@ -19,6 +20,8 @@ ros::Publisher filtered_in_cloud_pub;
 ros::Publisher filtered_out_cloud_pub;
 ros::Publisher registered_cloud_pub;
 float scale_factor;
+float radius;
+float points_number;
 std::vector<std::string> file_list_;
 
 bool uploadPointCloud(oem_server::UploadPointCloud::Request &req,
@@ -39,13 +42,27 @@ bool uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::transformPointCloud(*cloud, *transformed_cloud, transform);
 
+    // Assume cloud is already loaded with your sparse point cloud data
+
     Eigen::Vector4f min_point, max_point;
     pcl::getMinMax3D(*transformed_cloud, min_point, max_point);
 
     // Calculate the center of the bounding box
     Eigen::Vector4f center = 0.5 * (min_point + max_point);
 
-    
+    std::cout << "Min Point: " << min_point.transpose() << std::endl;
+    std::cout << "Max Point: " << max_point.transpose() << std::endl;
+    std::cout << "Center: " << center.transpose() << std::endl;
+
+    // Set up the Radius Outlier Removal filter
+    pcl::RadiusOutlierRemoval<pcl::PointXYZ> outrem;
+    outrem.setInputCloud(transformed_cloud);
+    outrem.setRadiusSearch(radius);  // Set the radius of the neighborhood considered
+    outrem.setMinNeighborsInRadius(points_number);  // Set the minimum number of neighbors within this radius
+
+    // Apply the filter
+    outrem.filter(*transformed_cloud);
+    pcl::getMinMax3D(*transformed_cloud, min_point, max_point);
 
     std::cout << "Min Point: " << min_point.transpose() << std::endl;
     std::cout << "Max Point: " << max_point.transpose() << std::endl;
@@ -99,8 +116,8 @@ bool uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     // Publish the filtered point cloud
     sensor_msgs::PointCloud2 filtered_ros_cloud2;
     pcl::toROSMsg(*cropped_out_global_map_ptr_, filtered_ros_cloud2);
-    filtered_ros_cloud.header.frame_id = "global_map"; // Set the appropriate frame_id
-    filtered_ros_cloud.header.stamp = ros::Time::now();
+    filtered_ros_cloud2.header.frame_id = "global_map"; // Set the appropriate frame_id
+    filtered_ros_cloud2.header.stamp = ros::Time::now();
     filtered_out_cloud_pub.publish(filtered_ros_cloud2);
 
     // // Registration with ICP
@@ -116,18 +133,26 @@ bool uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     registered_ros_cloud.header.stamp = ros::Time::now();
     registered_cloud_pub.publish(registered_ros_cloud);
 
-    *pcl::PointCloud<pcl::PointXYZ>::Ptr merged_map = new pcl::PointCloud<pcl::PointXYZ>(*cropped_out_global_map_ptr_ + *registered_cloud);
-    global_map_ptr_.reset(new pcl::PointCloud<pcl::PointXYZ>(*merged_map));
+    global_map_ptr_.reset(new pcl::PointCloud<pcl::PointXYZ>(*cropped_out_global_map_ptr_ + *registered_cloud));
 
 
     if (icp.hasConverged()) {
-        res.success = true;
-        res.message = "Registration successful.";
         std::cout << "ICP converged." << std::endl
               << "The score is " << icp.getFitnessScore() << std::endl;
+    }
+
+    if (global_map_ptr_) {
+        // Define the filename
+        std::string filename = "/mnt/ros_ws/src/oem_server/maps/update_vlp-16.pcd";
+        
+        // Save the point cloud to a file
+        if (pcl::io::savePCDFile<pcl::PointXYZ>(filename, *global_map_ptr_) == 0) {
+            std::cout << "Saved merged point cloud to " << filename << std::endl;
+        } else {
+            std::cerr << "Failed to save point cloud." << std::endl;
+        }
     } else {
-        res.success = false;
-        res.message = "Registration failed.";
+        std::cerr << "No point cloud data to save." << std::endl;
     }
 
     return true;
@@ -174,6 +199,8 @@ int main(int argc, char **argv)
 
     private_nh.param<std::string>("pcd_path", pcd_file_path, "");
     private_nh.param<float>("scale_factor", scale_factor, 0.5f);
+    private_nh.param<float>("filter_radius", radius, 10.0f);
+    private_nh.param<float>("filter_points", points_number, 100.0f);
 
     file_list_.push_back(pcd_file_path);
     createPcd();

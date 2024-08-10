@@ -1,4 +1,4 @@
 sensor_msgs/PointCloud2 cloud
-geometry_msgs/Pose pose
+sensor_msgs/PointCloud2 redundancy_cloud
 ---
 bool success

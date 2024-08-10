@@ -39,10 +39,11 @@
     <arg name="resolution" default="3.0" />
 
     <arg name="voxel_leaf_size" default="3.0" />
+    <arg name="map_voxel_leaf_size" default="1.0" />
 
     <arg name="max_iterations" default="100" />
     <arg name="map_switch_thres" default="40.0" />
-    <arg name="odometry_refresh_thres" default="40.0" />
+    <arg name="odometry_refresh_thres" default="10.0" />
 
     <arg name="raw_pointcloud_topic" default="velodyne_points" />
     <arg name="filtered_pointcloud_topic" default="filtered_points" />
@@ -71,12 +72,14 @@
         <arg name="node_name" value="voxel_grid_filter2" />
         <arg name="points_topic" value="pointcloud" />
         <arg name="output_topic" value="filtered_pointcloud" />
-        <arg name="localMap_topic" value="/v1/submap" />
+        <!-- <arg name="localMap_topic" value="/v1/submap" />
+        <arg name="output_LocalMap_topic" value="/v1/filtered_submap" /> -->
+        <arg name="localMap_topic" value="/v1/odometry_node/keypoints" />
         <arg name="output_LocalMap_topic" value="/v1/filtered_submap" />
 
         <arg name="output_frame" value="$(arg sensor_frame)" />
         <arg name="output_log" value="false" />
-        <arg name="leaf_size" value="$(arg voxel_leaf_size)" />
+        <arg name="leaf_size" value="$(arg map_voxel_leaf_size)" />
     </include>
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_sensor" 
@@ -96,7 +99,7 @@
         <param name="sensor_base_qw" value="$(arg sensor_base_qw)" />
     </node>
 
-    <node pkg="oem_localizer" type="ndt_localizer_node" name="ndt_localizer">
+    <node pkg="oem_localizer" type="ndt_localizer_node" name="ndt_localizer" output="screen">
         <param name="base_frame" value="$(arg base_frame)" />
         <param name="load_path_file" value="$(arg load_path_file)" /> 
         <param name="save_path_file" value="$(arg save_path_file)" /> 

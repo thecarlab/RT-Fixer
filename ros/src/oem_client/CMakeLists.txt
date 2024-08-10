@@ -16,11 +16,17 @@ find_package(catkin REQUIRED COMPONENTS
         pcl_conversions
         pcl_ros
         message_generation
+        rospy
+        dynamic_reconfigure
         )
 
 generate_messages(
         DEPENDENCIES
         std_msgs
+)
+
+generate_dynamic_reconfigure_options(
+  configs/VoxelFilter.cfg
 )
 
 find_package(PCL REQUIRED QUIET)
@@ -39,6 +45,7 @@ catkin_package(
         pcl_conversions
         pcl_ros
         message_generation
+        dynamic_reconfigure
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS})

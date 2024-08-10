@@ -18,9 +18,12 @@ NdtLocalizer::NdtLocalizer(ros::NodeHandle &nh, ros::NodeHandle &private_nh) : n
     // Allow to set initial pose through rviz
     initial_pose_sub_ = nh_.subscribe("/initialpose", 100, &NdtLocalizer::callback_init_pose, this);
     initial_pose_sub_2 = nh_.subscribe("initialpose", 100, &NdtLocalizer::callback_init_pose, this);
+    
     std::this_thread::sleep_for(std::chrono::seconds(1)); 
     init_params();
 
+    relocalization_sub_ = nh_.subscribe("relocalization", 100, &NdtLocalizer::callback_relocalization, this);
+    lidar_odom_pose_sub_ = nh_.subscribe("lidar_odom_pose", 100, &NdtLocalizer::callback_lidar_odom_pose, this);
     // Save path for solving height problem
     save_map_service_ = nh_.advertiseService("save_path", &NdtLocalizer::savePath, this);
 
@@ -118,14 +121,14 @@ void NdtLocalizer::init_params()
 
 void NdtLocalizer::initializePoseProcessing(const geometry_msgs::PoseWithCovarianceStamped &pose_msg) {
     // Assume all necessary checks are done before this function is called
-    initial_pose_cov_msg_ = pose_msg;
+    geometry_msgs::PoseWithCovarianceStamped initial_pose_cov_msg_ = pose_msg;
 
     // Search for the z-axle value of the nearest history way points.
     if (load_path_file_ != "") {
         loadPath();
         initial_pose_cov_msg_.pose.pose.position.z = getNearestHeight(initial_pose_cov_msg_.pose.pose);
         // debug_pose_marker(initial_pose_cov_msg_.pose.pose);
-        poly_pub_.publish(poly);
+        // poly_pub_.publish(poly);
     }
 
     // Obtain transition matrix from ROS message
@@ -150,37 +153,73 @@ void NdtLocalizer::callback_init_pose(
     }
 }
 
+void NdtLocalizer::callback_relocalization(const std_msgs::Empty::ConstPtr& msg)
+{
+    ROS_INFO("Received relocalization signal");
+    isRelocalization = true;
+}
+
+
+void NdtLocalizer::callback_lidar_odom_pose(
+    const nav_msgs::Odometry::ConstPtr &lidar_odom_msg)
+{
+    ROS_INFO("Update latest lidar odom");
+
+    Eigen::Affine3d temp_affine;
+    tf2::fromMsg(lidar_odom_msg->pose.pose, temp_affine);
+    Eigen::Matrix4f result_pose_matrix = temp_affine.matrix().cast<float>();
+
+    if(!is_first_lidar_odom){
+      // Convert nav_msgs::Odometry to geometry_msgs::PoseWithCovarianceStamped
+      lidar_odom_delta_trans = lidar_odom_pre_trans.inverse() * result_pose_matrix;
+    }else{
+      is_first_lidar_odom = false;
+    }
+
+    lidar_odom_pre_trans = result_pose_matrix;
+    
+    ros::Time msg_time = lidar_odom_msg->header.stamp;
+    ROS_INFO("Latest lidar odom time: %f", msg_time.toSec());
+}
+
 void NdtLocalizer::callback_pointsmap(
     const sensor_msgs::PointCloud2::ConstPtr &map_points_msg_ptr)
 {
-    ROS_INFO("Recieved new map, update old NDT registration target");
-    const auto trans_epsilon = ndt_->getTransformationEpsilon();
-    const auto step_size = ndt_->getStepSize();
-    const auto resolution = ndt_->getResolution();
-    const auto max_iterations = ndt_->getMaximumIterations();
+    std::thread([this, map_points_msg_ptr]() {
+      
+      const auto trans_epsilon = ndt_->getTransformationEpsilon();
+      const auto step_size = ndt_->getStepSize();
+      const auto resolution = ndt_->getResolution();
+      const auto max_iterations = ndt_->getMaximumIterations();
 
-    pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>* ndt_new(new pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>);
-    pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>* ndt_old = ndt_;
+      pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>* ndt_new(new pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>);
+      // pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>* ndt_old = ndt_;
 
-    ndt_new->setTransformationEpsilon(trans_epsilon);
-    ndt_new->setStepSize(step_size);
-    ndt_new->setResolution(resolution);
-    ndt_new->setMaximumIterations(max_iterations);
+      ndt_new->setTransformationEpsilon(trans_epsilon);
+      ndt_new->setStepSize(step_size);
+      ndt_new->setResolution(resolution);
+      ndt_new->setMaximumIterations(max_iterations);
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr map_points_ptr(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::fromROSMsg(*map_points_msg_ptr, *map_points_ptr);
-    ndt_new->setInputTarget(map_points_ptr);
+      pcl::PointCloud<pcl::PointXYZ>::Ptr map_points_ptr(new pcl::PointCloud<pcl::PointXYZ>);
+      pcl::fromROSMsg(*map_points_msg_ptr, *map_points_ptr);
+      ndt_new->setInputTarget(map_points_ptr);
+      // create Thread
+      // detach
+      pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+      ndt_new->align(*output_cloud, Eigen::Matrix4f::Identity());
 
-    // swap
-    //const auto swap_time = std::chrono::system_clock::now();
-    ndt_map_mtx_.lock();
-    ndt_ = ndt_new;
-    ndt_map_mtx_.unlock();
-    //const auto swap_end_time = std::chrono::system_clock::now();
-    //const auto swap_use_time = std::chrono::duration_cast<std::chrono::microseconds>(swap_end_time - swap_time).count() / 1000.0;
-    //std::cout << "swap map time: " << swap_use_time << std::endl;
-
-    delete ndt_old;
+      // swap
+      //const auto swap_time = std::chrono::system_clock::now();
+      // ndt_map_mtx_.lock();
+      new_ndt_ = ndt_new;
+      is_map_updated = true;
+      // ndt_map_mtx_.unlock();
+      //const auto swap_end_time = std::chrono::system_clock::now();
+      //const auto swap_use_time = std::chrono::duration_cast<std::chrono::microseconds>(swap_end_time - swap_time).count() / 1000.0;
+      //std::cout << "swap map time: " << swap_use_time << std::endl;
+      ROS_INFO("Recieved new map, update old NDT registration target");
+      // delete ndt_old;
+    }).detach();
 }
 
 // Designed to provide service to a specific task
@@ -188,7 +227,13 @@ void NdtLocalizer::callback_pointcloud(
     const sensor_msgs::PointCloud2::ConstPtr &sensor_points_sensorTF_msg_ptr)
 {
     // mutex Map
-    std::lock_guard<std::mutex> lock(ndt_map_mtx_);
+    // std::lock_guard<std::mutex> lock(ndt_map_mtx_);
+    if(is_map_updated)
+    {
+      delete ndt_;
+      ndt_ = new_ndt_;
+      is_map_updated = false;
+    }
 
     // Check if map is ready
     if (ndt_->getInputTarget() == nullptr)
@@ -219,6 +264,15 @@ void NdtLocalizer::callback_pointcloud(
     if(is_ndt_published){
         initial_pose_matrix = pre_trans * delta_trans; 
     }
+
+    if(isRelocalization)
+    {
+      initial_pose_matrix = lidar_odom_pre_trans * lidar_odom_delta_trans; 
+      ros::Time msg_time = sensor_points_sensorTF_msg_ptr->header.stamp;
+      ROS_INFO("Relocalization time: %f", msg_time.toSec());
+      isRelocalization = false;
+    }
+
 
     // Do localization based on a guess initial pose
     pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud(new pcl::PointCloud<pcl::PointXYZ>);

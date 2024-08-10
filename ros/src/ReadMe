@@ -35,3 +35,14 @@ roslaunch oem_server map_loader.launch namespace:=v1
 
 3. start clients simulation
 roslaunch oem_client clients.launch
+
+
+rosbag play --clock -p v1 velodyne16_2019-05-23-09-06-57.bag --pause
+
+
+command = ['roslaunch', 'oem_simulator', 'vlp16_origin.launch']
+process = subprocess.Popen(command)
+
+rosrun oem_client smart_rosbag.py _bag_file:=0_180.bag _clock:=true _pause:=false _prefix:=v1
+
+rosrun oem_client smart_rosbag.py _bag_file:=kitti_2011_10_03_drive_0027_synced.bag _clock:=true _pause:=false _prefix:=v1 _rate:=0.3

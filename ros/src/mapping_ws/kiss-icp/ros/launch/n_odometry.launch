@@ -25,6 +25,7 @@
     <param name="min_range" value="$(arg min_range)"/>
     <param name="deskew" value="$(arg deskew)"/>
     <param name="voxel_size" value="$(arg voxel_size)"/>
+    <!-- <param name="max_points_per_voxel" value="2"/> -->
     <param name="max_points_per_voxel" value="20"/>
     <param name="initial_threshold" value="2.0"/>
     <param name="min_motion_th" value="0.1" />

@@ -3,6 +3,12 @@ project(oem_server)
 
 set(CMAKE_CXX_STANDARD 14)
 
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
 find_package(catkin REQUIRED COMPONENTS
     roscpp
     tf2
@@ -17,7 +23,9 @@ find_package(catkin REQUIRED COMPONENTS
     diagnostic_msgs
     pcl_conversions
     pcl_ros
+    dynamic_reconfigure
     message_generation
+    ndt_omp
 )
 
 find_package(PCL REQUIRED QUIET)
@@ -33,6 +41,10 @@ generate_messages(
         sensor_msgs
         geometry_msgs
         nav_msgs
+)
+
+generate_dynamic_reconfigure_options(
+  cfg/FilterConfig.cfg
 )
 
 catkin_package(
@@ -51,11 +63,11 @@ catkin_package(
     pcl_conversions
     pcl_ros
     message_runtime
+    ndt_omp
 )
 
 
 
-catkin_package()
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 SET(CMAKE_CXX_FLAGS "-O2 -g -Wall ${CMAKE_CXX_FLAGS}")
@@ -68,3 +80,4 @@ target_link_libraries(pcd_with_pose ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
 add_executable(map_merge src/test_map_uploader.cpp)
 target_link_libraries(map_merge ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+# add_dependencies(map_merge ${PROJECT_NAME}_gencfg)

@@ -32,6 +32,7 @@
 #include <pcl_ros/transforms.h>
 
 #include <std_srvs/Empty.h>
+#include <thread>
 
 struct Pose {
     double x;
@@ -64,6 +65,9 @@ private:
     // for testing single node
     ros::Subscriber initial_pose_sub_;
     ros::Subscriber initial_pose_sub_2;
+    ros::Subscriber lidar_odom_pose_sub_;
+    ros::Subscriber relocalization_sub_;
+
     // for testing multiple nodes
     ros::Subscriber map_points_sub_;
     ros::Subscriber sensor_points_sub_;
@@ -76,8 +80,10 @@ private:
     void callback_pointsmap(const sensor_msgs::PointCloud2::ConstPtr & pointcloud2_msg_ptr);
     void callback_init_pose(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr & pose_conv_msg_ptr);
     void callback_pointcloud(const sensor_msgs::PointCloud2::ConstPtr & pointcloud2_msg_ptr);
-    void callback_robot_pose(const nav_msgs::Odometry::ConstPtr &ndt_odom_msg);
-    void callback_global_localization(const sensor_msgs::PointCloud2::ConstPtr & pointcloud2_msg_ptr);
+    // void callback_robot_pose(const nav_msgs::Odometry::ConstPtr &ndt_odom_msg);
+    // void callback_global_localization(const sensor_msgs::PointCloud2::ConstPtr & pointcloud2_msg_ptr);
+    void callback_relocalization(const std_msgs::Empty::ConstPtr& msg);
+    void callback_lidar_odom_pose(const nav_msgs::Odometry::ConstPtr &lidar_odom_msg);
 
     // Tools functions
     // load a pre-tested path for searching pose
@@ -107,19 +113,25 @@ private:
 
     std::string load_path_file_, save_path_file_;
     geometry_msgs::PolygonStamped poly;
-    geometry_msgs::PoseWithCovarianceStamped initial_pose_cov_msg_;
+    geometry_msgs::PoseWithCovarianceStamped latest_lidar_odom_pose_msg;
+    // geometry_msgs::PoseWithCovarianceStamped initial_pose_cov_msg_;
     std::vector<geometry_msgs::Pose> poses;
     pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> *ndt_;
+    pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> *new_ndt_;
 
 
+    bool is_map_updated = false;
     bool is_ndt_published = false;
     bool odometry_initialized = false;
+    bool isRelocalization = false;
+    bool is_first_lidar_odom = true;
 
     // transition matrix
     Eigen::Matrix4f base_to_sensor_matrix_;
     Eigen::Matrix4f map_to_base_matrix;
     Eigen::Matrix4f initial_pose_matrix;
     Eigen::Matrix4f pre_trans, delta_trans;
+    Eigen::Matrix4f lidar_odom_pre_trans, lidar_odom_delta_trans;
 
     tf2_ros::Buffer tf2_buffer_;
     tf2_ros::TransformListener tf2_listener_;
