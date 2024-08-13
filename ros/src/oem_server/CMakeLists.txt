@@ -78,6 +78,6 @@ target_link_libraries(map_loader ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_executable(pcd_with_pose src/pcd_with_pose.cpp)
 target_link_libraries(pcd_with_pose ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
-add_executable(map_merge src/test_map_uploader.cpp)
-target_link_libraries(map_merge ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+# add_executable(map_merge src/test_map_uploader.cpp)
+# target_link_libraries(map_merge ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 # add_dependencies(map_merge ${PROJECT_NAME}_gencfg)
