@@ -25,7 +25,6 @@ find_package(catkin REQUIRED COMPONENTS
     pcl_ros
     dynamic_reconfigure
     message_generation
-    ndt_omp
 )
 
 find_package(PCL REQUIRED QUIET)
@@ -41,10 +40,6 @@ generate_messages(
         sensor_msgs
         geometry_msgs
         nav_msgs
-)
-
-generate_dynamic_reconfigure_options(
-  cfg/FilterConfig.cfg
 )
 
 catkin_package(
@@ -63,7 +58,6 @@ catkin_package(
     pcl_conversions
     pcl_ros
     message_runtime
-    ndt_omp
 )
 
 
@@ -78,6 +72,6 @@ target_link_libraries(map_loader ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_executable(pcd_with_pose src/pcd_with_pose.cpp)
 target_link_libraries(pcd_with_pose ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
-add_executable(map_merge src/test_map_uploader.cpp)
-target_link_libraries(map_merge ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+# add_executable(map_merge src/test_map_uploader.cpp)
+# target_link_libraries(map_merge ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 # add_dependencies(map_merge ${PROJECT_NAME}_gencfg)
