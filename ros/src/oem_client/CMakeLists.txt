@@ -25,10 +25,6 @@ generate_messages(
         std_msgs
 )
 
-generate_dynamic_reconfigure_options(
-  configs/VoxelFilter.cfg
-)
-
 find_package(PCL REQUIRED QUIET)
 
 catkin_package(

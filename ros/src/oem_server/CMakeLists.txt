@@ -25,7 +25,6 @@ find_package(catkin REQUIRED COMPONENTS
     pcl_ros
     dynamic_reconfigure
     message_generation
-    ndt_omp
 )
 
 find_package(PCL REQUIRED QUIET)
@@ -41,10 +40,6 @@ generate_messages(
         sensor_msgs
         geometry_msgs
         nav_msgs
-)
-
-generate_dynamic_reconfigure_options(
-  cfg/FilterConfig.cfg
 )
 
 catkin_package(
@@ -63,7 +58,6 @@ catkin_package(
     pcl_conversions
     pcl_ros
     message_runtime
-    ndt_omp
 )
 
 

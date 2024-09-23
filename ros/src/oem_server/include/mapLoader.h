@@ -46,8 +46,6 @@
 #include <pcl/common/common.h>
 #include <pcl/filters/voxel_grid.h>
 
-#include <pclomp/ndt_omp.h>
-
 // ROS (Robot Operating System) headers for handling ROS functionalities
 #include <ros/ros.h>
 #include <signal.h>
