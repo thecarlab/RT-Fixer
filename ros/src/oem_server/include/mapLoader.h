@@ -135,6 +135,8 @@ private:
     ros::NodeHandle nh, private_nh;
     pcl::PointCloud<pcl::PointXYZ>::Ptr global_map_ptr_;
 
+    sensor_msgs::PointCloud2 global_pcd;
+
     std::vector<std::string> file_list_;
 
     ros::Publisher raw_pc_map_pub_;

@@ -67,7 +67,7 @@ class SyncNode:
 
     def sync_callback(self, point_cloud, odom):
         # Callback function for synchronized messages
-        rospy.loginfo(f"lidar odom buffer size {len(self.lidar_odom_buffer)}")
+        #rospy.loginfo(f"lidar odom buffer size {len(self.lidar_odom_buffer)}")
 
         if not self.save_triggered:
             # Add new messages to the pre-save buffer
@@ -77,12 +77,12 @@ class SyncNode:
 
     def sync_callback2(self, point_cloud, odom):
         # Callback function for synchronized messages
-        rospy.loginfo(f"ndt odom buffer size {len(self.ndt_odom_buffer)}")
+        #rospy.loginfo(f"ndt odom buffer size {len(self.ndt_odom_buffer)}")
 
         if not self.save_triggered:
             # Add new messages to the pre-save buffer
             self.ndt_odom_buffer.append((point_cloud, odom))
-            if len(self.ndt_odom_buffer) > 10:
+            if len(self.ndt_odom_buffer) > 15:
                 self.ndt_odom_buffer.pop(0)
 
     # def save_callback(self, ndt_pose, filter_points):
@@ -169,11 +169,11 @@ class SyncNode:
 
         rospy.loginfo("get latest local_map")
 
-        for N in [10]:
+        for N in [15]:
             # if len(self.pre_save_buffer) >= N and len(self.post_save_buffer) >= N:
             combined_points = merge_point_clouds(self.ndt_odom_buffer, N)
-            # downsampled_points = downsample_point_cloud(combined_points, 0.2)
-            transformed_redundancy_cloud_msg = create_point_cloud_msg(combined_points)
+            downsampled_points = downsample_point_cloud(combined_points, 0.1)
+            transformed_redundancy_cloud_msg = create_point_cloud_msg(downsampled_points)
             #pcd_filename = f"/mnt/Data/exp/exp3/merged_map_N{N}.pcd"
             # self.save_point_cloud(combined_points, pcd_filename)
             # rospy.loginfo(f"Generated map with N={N} and saved to {pcd_filename}")

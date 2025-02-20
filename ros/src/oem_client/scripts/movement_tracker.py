@@ -344,7 +344,8 @@ class MovementTracker:
         self.deviation_buf.append(deviation)
         self.deviation_pub.publish(deviation)
         if not self.found_update:
-            if deviation > 1000000.0:
+            if deviation > 1.0:
+            # if deviation > 1000000000.0:
                 
                 if self.odom_update_count < 1:
                     rospy.loginfo('Map incorrect from beginning')
@@ -419,7 +420,7 @@ class MovementTracker:
                         rospy.logerr("Service call failed: %s" % e)
 
                     # Wait, until all message in queue is processed.
-                    sleep(3)
+                    sleep(0.5)
 
                     rospy.loginfo("Calling generate local map")
                     empty_msg = MsgEmpty()

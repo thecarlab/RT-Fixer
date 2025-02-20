@@ -108,6 +108,8 @@ MapLoader::MapLoader(ros::NodeHandle &nh_, ros::NodeHandle &private_nh_){
 bool MapLoader::uploadPointCloud(oem_server::UploadPointCloud::Request &req,
                       oem_server::UploadPointCloud::Response &res)
 {
+
+    ROS_INFO("Start update global map");
     pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::fromROSMsg(req.cloud, *transformed_cloud);
 
@@ -162,6 +164,8 @@ bool MapLoader::uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     transformed_ros_cloud.header.frame_id = "global_map"; // Set the appropriate frame_id
     transformed_ros_cloud.header.stamp = ros::Time::now();
     transformed_cloud_pub.publish(transformed_ros_cloud);
+
+    ROS_INFO("Publish debug clouds done");
 
     // pcl::getMinMax3D(*transformed_cloud, min_point, max_point);
     Eigen::Vector4f center = 0.5 * (min_point + max_point);
@@ -234,6 +238,8 @@ bool MapLoader::uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     std::cout << "Remove redundancy voxel " << count << std::endl;
     std::cout << "Total unique voxels in raw global map: " << voxel_global_map.size() << std::endl;
 
+    ROS_INFO("Remove Error points");
+
     PointCloudT::Ptr modified_cloud_b(new PointCloudT);
     for (const auto& voxel : voxel_global_map) {
         modified_cloud_b->points.insert(modified_cloud_b->points.end(), voxel.second.begin(), voxel.second.end());
@@ -251,7 +257,7 @@ bool MapLoader::uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     pcd2.header.stamp =  ros::Time::now();
     filtered_out_cloud_pub.publish(pcd2);
 
-
+    ROS_INFO("Remove Error points publish");
 
     VoxelMap voxel_local_map = createVoxelMap(transformed_cloud, hash_voxel_size_);
     // Print the number of unique voxels in the map
@@ -343,6 +349,8 @@ bool MapLoader::uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     registered_ros_cloud.header.stamp = ros::Time::now();
     registered_cloud_pub.publish(registered_ros_cloud);
 
+    ROS_INFO("redundancy_cloud points publish");
+
     // global_map_ptr_.reset(new pcl::PointCloud<pcl::PointXYZ>(*cropped_global_map_ptr_ + *cropped_update_map_ptr_));
 
     // if (ndt.hasConverged()) {
@@ -360,12 +368,16 @@ bool MapLoader::uploadPointCloud(oem_server::UploadPointCloud::Request &req,
     modified_cloud_a->is_dense = true;
     global_map_ptr_.reset(new pcl::PointCloud<pcl::PointXYZ>(*modified_cloud_a));
 
+     ROS_INFO("Finish update global map");
     sensor_msgs::PointCloud2 pcd;
     pcl::toROSMsg(*global_map_ptr_, pcd);
     // Publish map for easy visual initialization
     pcd.header.frame_id = "global_map";
     pcd.header.stamp =  ros::Time::now();
     pc_map_pub_.publish(pcd);
+
+    // global_pcd.header.stamp = ros::Time(0);
+    // raw_pc_map_pub_.publish(global_pcd);
 
     std::cout << "Update done" << std::endl;
 
@@ -419,6 +431,7 @@ void MapLoader::createPcd()
     // Publish map for easy visual initialization
     pcd.header.frame_id = "global_map";
     raw_pc_map_pub_.publish(pcd);
+    global_pcd = pcd;
  
     ROS_INFO_STREAM("done!");
 }
