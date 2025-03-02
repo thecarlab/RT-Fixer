@@ -1,4 +1,4 @@
-# OpenEdgeMap
+# RT-Fixer
 An unified HD map generating and updating platform
 
 # ORB_SLAM2_ROS
